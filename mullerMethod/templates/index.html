@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Página de Inicio</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido a mi sitio</h1>
+    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+    <a href="{% url 'signup' %}" class="btn btn-secondary">Registro</a>
+  </div>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
+{% endblock %}
