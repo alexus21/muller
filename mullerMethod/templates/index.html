@@ -10,9 +10,9 @@
 <body>
 
 {#Barra de navegación#}
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar bg-dark border-bottom border-bottom-dark">
   <div class="container-fluid">
-    <a class="navbar-brand">Método de Müller</a>
+    <a class="navbar-brand text-light">Método de Müller</a>
     <form class="d-flex" role="search" method="POST">
       <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</button>
       <button type="button" class="btn btn-outline-success ms-3" data-bs-toggle="modal" data-bs-target="#signupModal">Registrarme</button>
@@ -21,28 +21,109 @@
 </nav>
 
 {#Petición de datos de la ecuación#}
-<form class="row g-3" method="POST">
-    {% csrf_token %}
-    <div class="col-auto ms-5">
-        <label for="getEquation" class="form-label">Ingrese la ecuación: </label>
-        <input type="text" class="form-control" id="getEquation" name="getEquation" placeholder="Ecuación">
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col-3">
+            <form class="form-control p-4" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <label for="getEquation" class="form-label">Ingrese la ecuación: </label>
+                    <input type="text" class="form-control" id="getEquation" name="getEquation" placeholder="f(x)">
+                </div>
+                <div class="row">
+                    <label for="getX0" class="form-label">Valor de X0: </label>
+                    <input type="text" class="form-control" id="getX0" name="getX0" placeholder="x0">
+                </div>
+                <div class="row">
+                    <label for="getX1" class="form-label">Valor de X1: </label>
+                    <input type="text" class="form-control" id="getX1" name="getX1" placeholder="x1">
+                </div>
+                <div class="row">
+                    <label for="getX2" class="form-label">Valor de X2: </label>
+                    <input type="text" class="form-control" id="getX2" name="getX2" placeholder="x2">
+                </div>
+                <div class="row">
+                    <label for="getErrorMargin" class="form-label">Margen de error mínimo </label>
+                    <input type="text" class="form-control" id="getErrorMargin" name="getErrorMargin" placeholder="x%">
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-info mt-4">Encontrar raíces</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <p class="fs-1">Gráfica de la función</p>
+                <img class="img-thumbnail" src="../static/images/PO6cjaY.jpg">
+            </div>
+            <div class="row">
+                <p class="fs-5">X = 0</p>
+            </div>
+        </div>
+        <div class="col-3">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                    <th scope="col">Iteración</th>
+                    <th scope="col">X0</th>
+                    <th scope="col">X1</th>
+                    <th scope="col">X2</th>
+                    <th scope="col">X3</th>
+                    <th scope="col">E%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>100%</td>
+                </tr><tr>
+                    <th scope="row">3</th>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>100%</td>
+                </tr>
+              <tr>
+                    <th scope="row">4</th>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>100%</td>
+                </tr><tr>
+                    <th scope="row">6</th>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>0.00000</td>
+                    <td>100%</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col-auto ms-5">
-        <label for="getX0" class="form-label">Valor de X0: </label>
-        <input type="text" class="form-control" id="getX0" name="getX0" placeholder="X0">
-    </div>
-    <div class="col-auto ms-5">
-        <label for="getX1" class="form-label">Valor de X1: </label>
-        <input type="text" class="form-control" id="getX1" name="getX1" placeholder="x1">
-    </div>
-    <div class="col-auto ms-5">
-        <label for="getX2" class="form-label">Valor de X2: </label>
-        <input type="text" class="form-control" id="getX2" name="getX2" placeholder="x2">
-    </div>
-    <div class="col-auto ms-5">
-        <button type="submit" class="btn btn-info mt-4">Encontrar raíces</button>
-    </div>
-</form>
+</div>
 
 {#Modal: registrar usuario#}
 <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
