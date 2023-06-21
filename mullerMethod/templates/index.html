@@ -4,15 +4,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página de Inicio</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Página de Inicio</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="../static/js/snippets.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Bienvenido a mi sitio</h1>
-    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
-    <a href="{% url 'signup' %}" class="btn btn-secondary">Registro</a>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Registrarme</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrarme en Muller.com</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+        {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Nombre de usuario:</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario">
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
+      </div>
+      <div class="form-group">
+        <label for="password">Repita su contraseña:</label>
+        <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Ingresa tu contraseña">
+      </div>
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+      </div>
+    </div>
   </div>
+</div>
+
+{#  <div class="container">#}
+{#    <h1>Bienvenido a mi sitio</h1>#}
+{#    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>#}
+{#    <a href="{% url 'signup' %}" class="btn btn-secondary">Registro</a>#}
+{#  </div>#}
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>

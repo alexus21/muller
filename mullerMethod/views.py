@@ -4,6 +4,9 @@ from .models import UserData
 # Validacion de datos:
 import re
 
+# Mensaje de error:
+from django.contrib import messages
+
 # Create your views here.
 
 def index(request):
@@ -22,13 +25,13 @@ def signup(request):
         password = request.POST["password"]
         retypedPassword = request.POST["retypePassword"]
 
-        print(checkUsername(username))
+        messages.info(request, checkUsername(username))
 
-        if password == retypedPassword:
-            datauser = UserData()
-            datauser.username = username
-            datauser.password = password
-            datauser.save()
+        # if password == retypedPassword:
+        #     datauser = UserData()
+        #     datauser.username = username
+        #     datauser.password = password
+        #     datauser.save()
 
     return render(request, 'signup.html')
 
