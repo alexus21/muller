@@ -1,41 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import UserData
 import re
 from django.contrib import messages
-
 
 def index(request):
 
     if request.method == "POST":
         if "signup" in request.POST:
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            retypedPassword = request.POST.get("retypePassword")
 
-            if checkUsernameLen(username):
-                messages.error(request, "El nombre de usuario es demasiado corto")
-
-            if checkIfUsernameIsEmpty(username):
-                messages.error(request, "El nombre de usuario no puede estar vacío")
-
-            if checkIfUsernameHasSymbols(username):
-                messages.error(request, "El nombre de usuario no debe contener caracteres especiales")
-
-            else:
-                messages.success(request, "Registro completado")
+            if username != "":
+                if password == retypedPassword:
+                    saveToDatabase(username, password)
+                    print("A value has been send")
+                    # return redirect("index")
 
         if "login" in request.POST:
             print("Login")
 
+        if "findRoots" in request.POST:
+            equation = request.POST.get("getEquation")
+            x0 = request.POST.get("getX0")
+            x1 = request.POST.get("getX1")
+            x2 = request.POST.get("getX2")
+            marginError = request.POST.get("getMarginOfError")
+
     return render(request, 'index.html')
 
-def checkIfUsernameIsEmpty(username):
-    return username == ""
+def saveToDatabase(username, password):
+    data = UserData(username=username, password=password)
+    data.save()
 
-
-def checkUsernameLen(username):
-    return len(username) < 5
-
-
-def checkIfUsernameHasSymbols(username):
-    pattern = "^[a-zA-Z0-9]+$"
-    return not re.match(pattern, username)
