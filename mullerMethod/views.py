@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import UserData
 
 
@@ -23,7 +23,11 @@ def index(request):
                 print("El nombre de usuario es requerido")
 
         if "login" in request.POST:
-            print("Login")
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+
+            if UserData.objects.filter(username=username).exists() and UserData.objects.filter(password=password):
+                return render(request, "muller.html", context={"username": username, "password": password})
 
         if "findRoots" in request.POST:
             equation = request.POST.get("getEquation")
@@ -32,7 +36,18 @@ def index(request):
             x2 = request.POST.get("getX2")
             marginError = request.POST.get("getMarginOfError")
 
-    return render(request, 'index.html')
+    return render(request, "index.html")
+
+
+def muller(request, username, password):
+    if "findRoots" in request.POST:
+        equation = request.POST.get("getEquation")
+        x0 = request.POST.get("getX0")
+        x1 = request.POST.get("getX1")
+        x2 = request.POST.get("getX2")
+        marginError = request.POST.get("getMarginOfError")
+
+    return render(request, "muller.html")
 
 
 def saveToDatabase(username, password):
