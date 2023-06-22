@@ -1,58 +1,41 @@
 from django.shortcuts import render
 from .models import UserData
-
-# Validacion de datos:
 import re
-
-# Mensaje de error:
 from django.contrib import messages
 
-# Create your views here.
 
 def index(request):
+
+    if request.method == "POST":
+        if "signup" in request.POST:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            if checkUsernameLen(username):
+                messages.error(request, "El nombre de usuario es demasiado corto")
+
+            if checkIfUsernameIsEmpty(username):
+                messages.error(request, "El nombre de usuario no puede estar vacío")
+
+            if checkIfUsernameHasSymbols(username):
+                messages.error(request, "El nombre de usuario no debe contener caracteres especiales")
+
+            else:
+                messages.success(request, "Registro completado")
+
+        if "login" in request.POST:
+            print("Login")
+
     return render(request, 'index.html')
-
-def login(request):
-    # Lógica para el inicio de sesión
-    return render(request, 'login.html')
-
-from django.shortcuts import render
-from .models import UserData
-
-def signup(request):
-    if request.method =="POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        retypedPassword = request.POST["retypePassword"]
-
-        messages.info(request, checkUsername(username))
-
-        # if password == retypedPassword:
-        #     datauser = UserData()
-        #     datauser.username = username
-        #     datauser.password = password
-        #     datauser.save()
-
-    return render(request, 'signup.html')
-
-def checkUsername(username):
-    if checkIfUsernameIsEmpty(username):
-        return "El nombre de usuario no puede estar vacio"
-
-    if checkUsernameLen(username):
-        return "El nombre de usuario debe ser minimo de 5 letras"
-
-    if checkIfUsernameHasSymbols(username):
-        return "El nombre de usuario no puede contener símbolos"
-
-
 
 def checkIfUsernameIsEmpty(username):
     return username == ""
 
+
 def checkUsernameLen(username):
     return len(username) < 5
 
+
 def checkIfUsernameHasSymbols(username):
     pattern = "^[a-zA-Z0-9]+$"
-    re.match(pattern, username)
+    return not re.match(pattern, username)

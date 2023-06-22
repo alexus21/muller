@@ -21,9 +21,10 @@
 </nav>
 
 {#Petición de datos de la ecuación#}
-<div class="container text-center mt-5">
+<div class="container-fluid text-center mt-5">
     <div class="row">
         <div class="col-3">
+            <p class="fs-1">Datos</p>
             <form class="form-control p-4" method="POST">
                 {% csrf_token %}
                 <div class="row">
@@ -54,75 +55,99 @@
         <div class="col-6">
             <div class="row">
                 <p class="fs-1">Gráfica de la función</p>
-                <img class="img-thumbnail" src="../static/images/PO6cjaY.jpg">
-            </div>
-            <div class="row">
-                <p class="fs-5">X = 0</p>
+                <img class="img-thumbnail" src="../static/images/wp11368522.png">
             </div>
         </div>
         <div class="col-3">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                    <th scope="col">Iteración</th>
-                    <th scope="col">X0</th>
-                    <th scope="col">X1</th>
-                    <th scope="col">X2</th>
-                    <th scope="col">X3</th>
-                    <th scope="col">E%</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>100%</td>
-                </tr><tr>
-                    <th scope="row">3</th>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>100%</td>
-                </tr>
-              <tr>
-                    <th scope="row">4</th>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>100%</td>
-                </tr><tr>
-                    <th scope="row">6</th>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>0.00000</td>
-                    <td>100%</td>
-                </tr>
-              </tbody>
-            </table>
+            <p class="fs-1">Resultados</p>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th scope="col">Iteración</th>
+                            <th scope="col">X0</th>
+                            <th scope="col">X1</th>
+                            <th scope="col">X2</th>
+                            <th scope="col">X3</th>
+                            <th scope="col">E%</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>100%</td>
+                        </tr><tr>
+                            <th scope="row">3</th>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>100%</td>
+                        </tr><tr>
+                            <th scope="row">6</th>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>0.00000</td>
+                            <td>100%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <p class="fs-1">Valor final de x:</p>
+                    <p class="fs-5">X = 0</p>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+{#Footer#}
+<div class="container-fluid mt-5 text-center">
+    <footer class="py-3">
+        <div class="row">
+          <div class="col">
+            <h5>Desarrollado por: </h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Ulloa Serpas, Hugo Alexander - US21003</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Vásquez Crespo, Ángel Gabriel - VC21007</a></li>
+            </ul>
+          </div>
+            <div class="my-3 border-top text-center">
+                <p>© 2023</p>
+            </div>
+        </div>
+    </footer>
 </div>
 
 {#Modal: registrar usuario#}
@@ -130,29 +155,38 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrarme en Muller.com</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrate en Muller.com</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" action="{% url 'index' %}">
             {% csrf_token %}
-          <div class="form-group">
-            <label for="username">Nombre de usuario:</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario">
-          </div>
-          <div class="form-group">
-            <label for="password">Contraseña:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
-          </div>
-          <div class="form-group">
-            <label for="password">Repita su contraseña:</label>
-            <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Ingresa tu contraseña">
-          </div>
-    </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Registrarse</button>
+            <div class="form-group">
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario" data-username-signup>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" data-password-signup>
+            </div>
+            <div class="form-group">
+                <label for="password">Repita su contraseña:</label>
+                <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Ingresa tu contraseña" data-retype-password-signup>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" name="signup" data-signup-button>Registrarse</button>
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                {% if forloop.first %}
+                  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+        </form>
       </div>
     </div>
   </div>
@@ -167,27 +201,27 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" action="{% url 'index' %}">
             {% csrf_token %}
-          <div class="form-group">
-            <label for="username">Nombre de usuario:</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario">
-          </div>
-          <div class="form-group">
-            <label for="password">Contraseña:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
-          </div>
-    </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            <div class="form-group">
+              <label for="username">Nombre de usuario:</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario">
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña:</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" name="login">Iniciar sesión</button>
+            </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
 
-<script src="../static/js/snippets.js" defer></script>
+<script src="{% static 'js/snippets.js' %}" defer></script>
 <script src="{% static 'js/bootstrap.min.js' %}" defer></script>
 </body>
 </html>
