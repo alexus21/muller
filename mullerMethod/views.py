@@ -1,10 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import UserData
-import re
-from django.contrib import messages
+
 
 def index(request):
-
     if request.method == "POST":
         if "signup" in request.POST:
             username = request.POST.get("username")
@@ -12,10 +10,17 @@ def index(request):
             retypedPassword = request.POST.get("retypePassword")
 
             if username != "":
+                print(username)
                 if password == retypedPassword:
-                    saveToDatabase(username, password)
-                    print("A value has been send")
-                    # return redirect("index")
+                    print(password)
+                    if not checkIfUserDoNotExist(username):
+                        saveToDatabase(username, password)
+                    else:
+                        print("Este usuario ya existe")
+                else:
+                    print("Las claves no son iguales")
+            else:
+                print("El nombre de usuario es requerido")
 
         if "login" in request.POST:
             print("Login")
@@ -29,7 +34,12 @@ def index(request):
 
     return render(request, 'index.html')
 
+
 def saveToDatabase(username, password):
     data = UserData(username=username, password=password)
     data.save()
+    print("Saved")
 
+
+def checkIfUserDoNotExist(username):
+    return UserData.objects.filter(username=username).exists()
