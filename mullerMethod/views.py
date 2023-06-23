@@ -8,16 +8,14 @@ def index(request):
         if "signup" in request.POST:
             username, email, password, status = signUpToSite(request)
             if status:
-                return render(request, "muller.html", context={"username": username, "email": email, "password": password})
+                return render(request, "muller.html",
+                              context={"username": username, "email": email, "password": password})
 
         if "login" in request.POST:
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            user = User.objects.filter(username=username)
-
-            if user.exists() and user.first().check_password(password):
-                email = user.first().email
-                return render(request, "muller.html", context={"username": username, "password": password, "email": email})
+            username, email, password, status = loginToSite(request)
+            if status:
+                return render(request, "muller.html",
+                              context={"username": username, "email": email, "password": password})
 
         if "recoverPassButton" in request.POST:
             username = request.POST.get("username")
@@ -77,6 +75,16 @@ def signUpToSite(request):
                 data = User.objects.create_user(username=username, password=password, email=email, is_staff=False, is_superuser=False, is_active=True)
                 data.save()
                 return username, email, password, True
+
+
+def loginToSite(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    user = User.objects.filter(username=username)
+
+    if user.exists() and user.first().check_password(password):
+        email = user.first().email
+        return username, email, password, True
 
 
 def updateData(oldUsername, newUsername, password):
