@@ -20,5 +20,5 @@ from .views import index, muller
 
 urlpatterns = [
     path('', index, name="index"),
-    path('muller/<str:username>/<str:password>', muller, name="muller"),
+    path('muller/<str:username>/<str:email>/<str:password>', muller, name="muller"),
 ]

@@ -1,39 +1,33 @@
 from django.shortcuts import render
 from .models import UserData
-from django.http import JsonResponse
 from django.contrib.auth.models import User
 
 
 def index(request):
     if request.method == "POST":
         if "signup" in request.POST:
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            retypedPassword = request.POST.get("retypePassword")
-
-            if username != "":
-                print(username)
-                if password == retypedPassword:
-                    print(password)
-                    if not checkIfUserDoNotExist(username):
-                        saveToDatabase(username, password)
-                        return render(request, "muller.html", context={"username": username, "password": password})
+            username, email, password, status = signUpToSite(request)
+            if status:
+                return render(request, "muller.html", context={"username": username, "email": email, "password": password})
 
         if "login" in request.POST:
             username = request.POST.get("username")
             password = request.POST.get("password")
+            user = User.objects.filter(username=username)
 
-            if UserData.objects.filter(username=username).exists() and UserData.objects.filter(password=password):
-                return render(request, "muller.html", context={"username": username, "password": password})
+            if user.exists() and user.first().check_password(password):
+                email = user.first().email
+                return render(request, "muller.html", context={"username": username, "password": password, "email": email})
 
         if "recoverPassButton" in request.POST:
             username = request.POST.get("username")
+            email = request.POST.get("email")
             password = request.POST.get("password")
             retypedPassword = request.POST.get("retypedPassword")
 
-            if username != "":
+            if username != "" or email != "" or password != "" or retypedPassword != "":
                 if password == retypedPassword:
-                    resetPassword(username, password)
+                    resetPassword(username, email, password)
                     return render(request, "index.html")
 
         if "findRoots" in request.POST:
@@ -70,12 +64,19 @@ def muller(request, username, password):
     return render(request, "muller.html", context={"username": username, "password": password})
 
 
-def saveToDatabase(username, password):
-    # Guarda los datos de usuario en la base de datos.
+def signUpToSite(request):
+    username = request.POST.get("username")
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    retypedPassword = request.POST.get("retypePassword")
 
-    data = UserData(username=username, password=password)
-    data.save()
-    print("Saved")
+    if username != "" or email != "" or password != "" or retypedPassword != "":
+        if password == retypedPassword:
+            if not checkIfUserDoNotExist(username, email):
+                # Guarda los datos de usuario en la base de datos auth_user de Django.
+                data = User.objects.create_user(username=username, password=password, email=email, is_staff=False, is_superuser=False, is_active=True)
+                data.save()
+                return username, email, password, True
 
 
 def updateData(oldUsername, newUsername, password):
@@ -92,19 +93,19 @@ def updateData(oldUsername, newUsername, password):
     print("Actualizado correctamente")
 
 
-def resetPassword(username, password):
+def resetPassword(username, email, password):
     # Actualiza los datos del usuario en la base de datos.
     # Crea el objeto myTable
-    myTable = UserData.objects.get(username=username)
+    user = User.objects.get(email=email)
 
     # Actualiza clave
-    myTable.password = password
+    user.username = username
+    user.password = password
 
     # Los inserta
-    myTable.save()
-    print("Actualizado correctamente")
+    user.save()
 
 
-def checkIfUserDoNotExist(username):
+def checkIfUserDoNotExist(username, email):
     #Verifica si el usuario existe o no en la base de datos.
-    return UserData.objects.filter(username=username).exists()
+    return User.objects.filter(username=username).exists() or User.objects.filter(email=email)
