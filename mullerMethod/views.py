@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import UserData
+from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -23,6 +25,16 @@ def index(request):
 
             if UserData.objects.filter(username=username).exists() and UserData.objects.filter(password=password):
                 return render(request, "muller.html", context={"username": username, "password": password})
+
+        if "recoverPassButton" in request.POST:
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            retypedPassword = request.POST.get("retypedPassword")
+
+            if username != "":
+                if password == retypedPassword:
+                    resetPassword(username, password)
+                    return render(request, "index.html")
 
         if "findRoots" in request.POST:
             equation = request.POST.get("getEquation")
@@ -73,6 +85,19 @@ def updateData(oldUsername, newUsername, password):
 
     # Actualiza los valores
     myTable.username = newUsername
+    myTable.password = password
+
+    # Los inserta
+    myTable.save()
+    print("Actualizado correctamente")
+
+
+def resetPassword(username, password):
+    # Actualiza los datos del usuario en la base de datos.
+    # Crea el objeto myTable
+    myTable = UserData.objects.get(username=username)
+
+    # Actualiza clave
     myTable.password = password
 
     # Los inserta
