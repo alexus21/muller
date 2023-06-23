@@ -20,8 +20,9 @@ def index(request):
                               context={"username": username, "email": email, "password": password})
 
         if "recoverPassButton" in request.POST:
-            resetPassword(request)
-            return render(request, "index.html")
+            status = resetPassword(request)
+            if status:
+                return render(request, "index.html")
 
         if "findRoots" in request.POST:
             getMullerData(request)
@@ -99,18 +100,20 @@ def updateUserData(request):
     return False
 
 
-def resetPassword(username, email, password):
+def resetPassword(request):
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    retypedPassword = request.POST.get("retypedPassword")
 
-    # Actualiza los datos del usuario en la base de datos.
-    # Crea el objeto myTable
-    user = User.objects.get(email=email)
+    data = User.objects.get(email=email)
 
-    # Actualiza clave
-    user.username = username
-    user.password = password
-
-    # Los inserta
-    user.save()
+    if User.objects.filter(email=email).exists():
+        if password != "" and retypedPassword != "":
+            if password == retypedPassword:
+                data.set_password(password)
+                data.save()
+                return True
+    return False
 
 
 def checkIfUserDoNotExist(username, email):
