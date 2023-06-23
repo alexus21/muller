@@ -1,65 +1,45 @@
 from django.shortcuts import render
+from mullerMethod.muller_algorithm import getMullerData
+
 from .models import UserData
 from django.contrib.auth.models import User
 
 
 def index(request):
     if request.method == "POST":
-        if "signup" in request.POST:
+        if "signupButton" in request.POST:
             username, email, password, status = signUpToSite(request)
             if status:
                 return render(request, "muller.html",
                               context={"username": username, "email": email, "password": password})
 
-        if "login" in request.POST:
+        if "loginButton" in request.POST:
             username, email, password, status = loginToSite(request)
             if status:
                 return render(request, "muller.html",
                               context={"username": username, "email": email, "password": password})
 
         if "recoverPassButton" in request.POST:
-            username = request.POST.get("username")
-            email = request.POST.get("email")
-            password = request.POST.get("password")
-            retypedPassword = request.POST.get("retypedPassword")
-
-            if username != "" or email != "" or password != "" or retypedPassword != "":
-                if password == retypedPassword:
-                    resetPassword(username, email, password)
-                    return render(request, "index.html")
+            resetPassword(request)
+            return render(request, "index.html")
 
         if "findRoots" in request.POST:
-            equation = request.POST.get("getEquation")
-            x0 = request.POST.get("getX0")
-            x1 = request.POST.get("getX1")
-            x2 = request.POST.get("getX2")
-            marginError = request.POST.get("getMarginOfError")
+            getMullerData(request)
 
     return render(request, "index.html")
 
 
-def muller(request, username, password):
+def muller(request, username, email, password):
     if request.method == "POST":
-        if "updateProfile" in request.POST:
-            oldUsername = request.POST.get("oldUsername")
-            newUsername = request.POST.get("newUsername")
-            password = request.POST.get("password")
-            retypedPassword = request.POST.get("retypePassword")
-
-            if newUsername != "":
-                if password == retypedPassword:
-                    if not checkIfUserDoNotExist(newUsername):
-                        updateData(oldUsername, newUsername, password)
-                        return render(request, "index.html")
+        if "updateProfileButton" in request.POST:
+            status = updateUserData(request)
+            if status:
+                return render(request, "index.html")
 
         if "findRoots" in request.POST:
-            equation = request.POST.get("getEquation")
-            x0 = request.POST.get("getX0")
-            x1 = request.POST.get("getX1")
-            x2 = request.POST.get("getX2")
-            marginError = request.POST.get("getMarginOfError")
+            getMullerData(request)
 
-    return render(request, "muller.html", context={"username": username, "password": password})
+    return render(request, "muller.html", context={"username": username, "email": email, "password": password})
 
 
 def signUpToSite(request):
@@ -87,21 +67,40 @@ def loginToSite(request):
         return username, email, password, True
 
 
-def updateData(oldUsername, newUsername, password):
-    # Actualiza los datos del usuario en la base de datos.
+def updateUserData(request):
+    username = request.POST.get("username")
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    retypedPassword = request.POST.get("retypedPassword")
+
     # Crea el objeto myTable
-    myTable = UserData.objects.get(username=oldUsername)
+    data = User.objects.get(email=email)
 
-    # Actualiza los valores
-    myTable.username = newUsername
-    myTable.password = password
+    # Restringir el cambio de datos para root:
+    if username != "root":
+        if username != "" and password != "" and retypedPassword != "":
+            if username != "" or checkIfUserDoNotExist(username, "") and password == retypedPassword:
+                data.username = username
+                data.set_password(password)
+                data.save()
+                return True
 
-    # Los inserta
-    myTable.save()
-    print("Actualizado correctamente")
+        if username == "":
+            if password == retypedPassword:
+                data.set_password(password)
+                data.save()
+                return True
+
+        if password == "" or retypedPassword == "":
+            if username != "" or checkIfUserDoNotExist(username, ""):
+                data.username = username
+                data.save()
+                return True
+    return False
 
 
 def resetPassword(username, email, password):
+
     # Actualiza los datos del usuario en la base de datos.
     # Crea el objeto myTable
     user = User.objects.get(email=email)
@@ -116,4 +115,11 @@ def resetPassword(username, email, password):
 
 def checkIfUserDoNotExist(username, email):
     #Verifica si el usuario existe o no en la base de datos.
-    return User.objects.filter(username=username).exists() or User.objects.filter(email=email)
+    if username and email:
+        return User.objects.filter(username=username).exists() or User.objects.filter(email=email)
+
+    if username and email == "":
+        return User.objects.filter(username=username).exists()
+
+    if username == "" and email:
+        return User.objects.filter(email=email).exists()
