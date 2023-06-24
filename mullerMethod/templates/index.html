@@ -30,23 +30,23 @@
                 {% csrf_token %}
                 <div class="row">
                     <label for="getEquation" class="form-label">Ingrese la ecuación: </label>
-                    <input type="text" class="form-control" id="getEquation" name="getEquation" placeholder="f(x)">
+                    <input type="text" class="form-control" id="getEquation" name="getEquation" placeholder="f(x)" required>
                 </div>
                 <div class="row">
                     <label for="getX0" class="form-label">Valor de X0: </label>
-                    <input type="text" class="form-control" id="getX0" name="getX0" placeholder="x0">
+                    <input type="text" class="form-control" id="getX0" name="getX0" placeholder="x0"  required>
                 </div>
                 <div class="row">
                     <label for="getX1" class="form-label">Valor de X1: </label>
-                    <input type="text" class="form-control" id="getX1" name="getX1" placeholder="x1">
+                    <input type="text" class="form-control" id="getX1" name="getX1" placeholder="x1"  required>
                 </div>
                 <div class="row">
                     <label for="getX2" class="form-label">Valor de X2: </label>
-                    <input type="text" class="form-control" id="getX2" name="getX2" placeholder="x2">
+                    <input type="text" class="form-control" id="getX2" name="getX2" placeholder="x2"  required>
                 </div>
                 <div class="row">
                     <label for="getErrorMargin" class="form-label">Margen de error mínimo </label>
-                    <input type="text" class="form-control" id="getErrorMargin" name="getMarginOfError" placeholder="x%">
+                    <input type="text" class="form-control" id="getErrorMargin" name="getMarginOfError" placeholder="x%"  required>
                 </div>
                 <div class="row">
                     <button type="submit" class="btn btn-info mt-4" name="findRoots" data-find-roots>Encontrar raíces</button>
@@ -115,6 +115,17 @@
                 <button type="submit" class="btn btn-primary" name="signupButton" data-signup-button>Registrarse</button>
             </div>
         </form>
+          <div class="form-group">
+          {% if messages %}
+            <div class="alert alert-danger">
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
@@ -151,6 +162,17 @@
                 </div>
             </div>
         </form>
+          <div class="form-group">
+          {% if messages %}
+            <div class="alert alert-danger">
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
@@ -191,7 +213,8 @@
 
 <script src="{% static 'js/snippets.js' %}" defer></script>
 <script src="{% static 'js/bootstrap.min.js' %}" defer></script>
-<script src="../static/js/loadContent.js" defer></script>
+{# Esta vaina es para cargar datos de los html: #}
+{#<script src="../static/js/loadContent.js" defer></script>#}
 </body>
 </html>
 {% endblock %}
