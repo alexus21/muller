@@ -53,17 +53,47 @@
                 </div>
             </form>
         </div>
-        <div class="col ms-3 d-none" id="graphics">
-            <div class="row text-center">
+        <div class="col-4">
+            <div class="row">
                 <p class="fs-1">Gráfica de la función</p>
-                <img src="../static/images/graphic.png" alt="graphic" style="width: 90%; height: auto;">
+                <img class="img-thumbnail" src="" alt="">
             </div>
         </div>
-        <div class="col ml-6" id="iterationsDestiny">
-{#            #}
+        <div class="col-5">
+            <p class="fs-1">Resultados</p>
+            <div class="row">
+                <div class="col">
+                    <p class="fs-1">Valor final de x:</p>
+                    <p class="fs-5">X = 0</p>
+                </div>
+            </div>
+            <div class="row">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>x0</th>
+                            <th>x1</th>
+                            <th>x2</th>
+                            <th>e</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in data %}
+                            <tr>
+                                {% for y in x %}
+                                    <td>{{ y }}</td>
+                                {% endfor %}
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
 
 {#Footer#}
 <div class="container-fluid mt-5 pt-5 text-center">

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from mullerMethod.muller_algorithm import getMullerData
+
+from mullerMethod.documento.ppp import Muller
 from django.contrib.auth.models import User
 
 
@@ -28,7 +29,11 @@ def index(request):
 
         # Verifica si se ha hecho clic en el botón "findRoots"
         if "findRoots" in request.POST:
-            getMullerData(request)
+
+            data = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 0.5, 0.1]]
+            data = getMullerDataa(request)
+            return render(request, 'index.html', {'data': data})
+
 
     return render(request, "index.html")
 
@@ -44,7 +49,16 @@ def muller(request, username, email, password):
 
         # Verifica si se ha hecho clic en el botón "findRoots"
         if "findRoots" in request.POST:
-            getMullerData(request)
+            data = {
+                "x0": [1, 2, 3],
+                "x1": [4, 5, 6],
+                "x2": [7, 8, 9],
+                "e": [1, 0.5, 0.1]
+            }
+            data = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 0.5, 0.1]]
+            return render(request, 'muller.html', {'data': data})
+
+
 
     return render(request, "muller.html", context={"username": username, "email": email, "password": password})
 
@@ -170,4 +184,12 @@ def checkIfUserExist(username, email):
     if email:
         return User.objects.filter(email=email).exists()
 
-    return False
+
+def getMullerDataa(request):
+        equation = request.POST.get("getEquation")
+        x0 = float(request.POST.get("getX0"))
+        x1 = float(request.POST.get("getX1"))
+        x2 = float(request.POST.get("getX2"))
+        marginError = float(request.POST.get("getMarginOfError"))
+
+        return Muller(equation, x0, x1, x2, marginError).iteraciones()
