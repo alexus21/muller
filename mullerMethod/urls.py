@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import index, muller
+from .views import index, muller, iterations
 
 urlpatterns = [
     path('', index, name="index"),
     path('muller/<str:username>/<str:email>/<str:password>', muller, name="muller"),
+    path('iterations/', iterations, name="iterations"),
 ]

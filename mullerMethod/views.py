@@ -49,6 +49,10 @@ def muller(request, username, email, password):
     return render(request, "muller.html", context={"username": username, "email": email, "password": password})
 
 
+def iterations(request):
+    return render(request, "iterations.html")
+
+
 # Función para registrar un nuevo usuario
 def signUpToSite(request):
     username = request.POST.get("username")
@@ -56,12 +60,18 @@ def signUpToSite(request):
     password = request.POST.get("password")
     retypedPassword = request.POST.get("retypePassword")
 
+    # Verifica si se han proporcionado valores no vacíos para `username`, `email`, `password` y `retypedPassword`
     if username != "" or email != "" or password != "" or retypedPassword != "":
+        # Verifica si `password` es igual a `retypedPassword`
         if password == retypedPassword:
-            if not checkIfUserDoNotExist(username, email):
-                # Guarda los datos de usuario en la base de datos auth_user de Django.
-                data = User.objects.create_user(username=username, password=password, email=email, is_staff=False, is_superuser=False, is_active=True)
+            # Verifica si no existe un usuario con el mismo nombre de usuario y correo electrónico
+            if not checkIfUserExist(username, email):
+                # Crea un nuevo objeto de usuario en la base de datos `auth_user` de Django
+                data = User.objects.create_user(username=username, password=password, email=email, is_staff=False,
+                                                is_superuser=False, is_active=True)
                 data.save()
+                # Devuelve el nombre de usuario, correo electrónico, contraseña y True para indicar
+                # que el registro fue exitoso
                 return username, email, password, True
 
 
@@ -71,8 +81,11 @@ def loginToSite(request):
     password = request.POST.get("password")
     user = User.objects.filter(username=username)
 
+    # Verifica si existe un usuario con el nombre de usuario proporcionado y si la contraseña es correcta
     if user.exists() and user.first().check_password(password):
+        # Obtiene el correo electrónico del primer usuario coincidente
         email = user.first().email
+        # Devuelve el nombre de usuario, correo electrónico, contraseña y True
         return username, email, password, True
 
 
@@ -88,24 +101,39 @@ def updateUserData(request):
 
     # Restringe el cambio de datos para root
     if username != "root":
+        # Actualiza los datos de usuario según las condiciones establecidas
         if username != "" and password != "" and retypedPassword != "":
-            if username != "" or checkIfUserDoNotExist(username, "") and password == retypedPassword:
+            # Verifica si el nombre de usuario no está vacío, no existe un usuario con el mismo nombre de usuario
+            # y la contraseña y la contraseña reingresada son iguales
+            if username != "" or checkIfUserExist(username, "") and password == retypedPassword:
+                # Actualiza el nombre de usuario y la contraseña del objeto `data` con los nuevos valores
                 data.username = username
                 data.set_password(password)
                 data.save()
+                # Devuelve True para indicar que la actualización de datos fue exitosa
                 return True
 
+        # Si el nombre de usuario está vacío
         if username == "":
+            # Verifica si la contraseña y la contraseña reingresada son iguales
             if password == retypedPassword:
+                # Actualiza solo la contraseña del objeto `data` con el nuevo valor
                 data.set_password(password)
                 data.save()
+                # Devuelve True para indicar que la actualización de datos fue exitosa
                 return True
 
+        # Si la contraseña o la contraseña reingresada están vacías
         if password == "" or retypedPassword == "":
-            if username != "" or checkIfUserDoNotExist(username, ""):
+            # Verifica si se ha proporcionado un nombre de usuario no vacío
+            # o si no existe un usuario con el mismo nombre de usuario
+            if username != "" or checkIfUserExist(username, ""):
+                # Actualiza solo el nombre de usuario del objeto `data` con el nuevo valor
                 data.username = username
                 data.save()
+                # Devuelve True para indicar que la actualización de datos fue exitosa
                 return True
+
     return False
 
 
@@ -117,23 +145,29 @@ def resetPassword(request):
 
     data = User.objects.get(email=email)
 
+    # Verifica si existe un usuario con el correo electrónico proporcionado
     if User.objects.filter(email=email).exists():
+        # Verifica si se han proporcionado contraseñas válidas
         if password != "" and retypedPassword != "":
+            # Verifica si las contraseñas coinciden
             if password == retypedPassword:
+                # Actualiza la contraseña del usuario con la nueva contraseña proporcionada
                 data.set_password(password)
                 data.save()
+                # Devuelve True para indicar que la contraseña se restableció correctamente
                 return True
     return False
 
 
-# Función para verificar si el usuario existe
-def checkIfUserDoNotExist(username, email):
+def checkIfUserExist(username, email):
     # Verifica si el usuario existe o no en la base de datos
     if username and email:
-        return User.objects.filter(username=username).exists() or User.objects.filter(email=email)
+        return User.objects.filter(username=username, email=email).exists()
 
-    if username and email == "":
+    if username:
         return User.objects.filter(username=username).exists()
 
-    if username == "" and email:
+    if email:
         return User.objects.filter(email=email).exists()
+
+    return False

@@ -49,24 +49,18 @@
                     <input type="text" class="form-control" id="getErrorMargin" name="getMarginOfError" placeholder="x%">
                 </div>
                 <div class="row">
-                    <button type="submit" class="btn btn-info mt-4" name="findRoots">Encontrar raíces</button>
+                    <button type="submit" class="btn btn-info mt-4" name="findRoots" data-find-roots>Encontrar raíces</button>
                 </div>
             </form>
         </div>
-        <div class="col-6 d-none">
-            <div class="row">
+        <div class="col ms-3 d-none" id="graphics">
+            <div class="row text-center">
                 <p class="fs-1">Gráfica de la función</p>
-                <img class="img-thumbnail" src="">
+                <img src="../static/images/graphic.png" alt="graphic" style="width: 90%; height: auto;">
             </div>
         </div>
-        <div class="col-3 d-none">
-            <p class="fs-1">Resultados</p>
-            <div class="row">
-                <div class="col">
-                    <p class="fs-1">Valor final de x:</p>
-                    <p class="fs-5">X = 0</p>
-                </div>
-            </div>
+        <div class="col ml-6" id="iterationsDestiny">
+{#            #}
         </div>
     </div>
 </div>
@@ -197,6 +191,7 @@
 
 <script src="{% static 'js/snippets.js' %}" defer></script>
 <script src="{% static 'js/bootstrap.min.js' %}" defer></script>
+<script src="../static/js/loadContent.js" defer></script>
 </body>
 </html>
 {% endblock %}
