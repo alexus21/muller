@@ -1,17 +1,20 @@
-from django.shortcuts import render
-
 from mullerMethod.documento.ppp import Muller
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.shortcuts import render
 
 
 # Vista principal para la página de inicio
 def index(request):
+    if "logged" not in request.session:
+        request.session["logged"] = False
+
     if request.method == "POST":
         # Verifica si se ha hecho clic en el botón "signupButton"
         if "signupButton" in request.POST:
             username, email, password, status = signUpToSite(request)
             if status:
+                request.session["logged"] = True
                 return render(request, "muller.html",
                               context={"username": username, "email": email, "password": password})
 
@@ -19,6 +22,7 @@ def index(request):
         if "loginButton" in request.POST:
             username, email, password, status = loginToSite(request)
             if status:
+                request.session["logged"] = True
                 return render(request, "muller.html",
                               context={"username": username, "email": email, "password": password})
 
@@ -30,11 +34,12 @@ def index(request):
 
         # Verifica si se ha hecho clic en el botón "findRoots"
         if "findRoots" in request.POST:
-            data = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 0.5, 0.1]]
             data = getMullerDataa(request)
             imagen = getMullerGraphics(request)
-            return render(request, 'index.html', {'data':data, 'imagen':imagen})
+            logged = request.session["logged"]
+            return render(request, 'index.html',  {'logged': logged, 'data': data, 'imagen': imagen})
 
+    request.session["logged"] = False
     return render(request, "index.html")
 
 
@@ -49,16 +54,9 @@ def muller(request, username, email, password):
 
         # Verifica si se ha hecho clic en el botón "findRoots"
         if "findRoots" in request.POST:
-            data = {
-                "x0": [1, 2, 3],
-                "x1": [4, 5, 6],
-                "x2": [7, 8, 9],
-                "e": [1, 0.5, 0.1]
-            }
-            data = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 0.5, 0.1]]
-            return render(request, 'muller.html', {'data': data})
-
-
+            data = getMullerDataa(request)
+            imagen = getMullerGraphics(request)
+            return render(request, 'index.html', {'data': data, 'imagen': imagen})
 
     return render(request, "muller.html", context={"username": username, "email": email, "password": password})
 
@@ -171,6 +169,9 @@ def updateUserData(request):
             # Devuelve True para indicar que la actualización de datos fue exitosa
             return True
 
+        if username == "" and password == "" and retypedPassword == "":
+            return False
+
     return False
 
 
@@ -218,7 +219,9 @@ def getMuller(request, dataOrGraphics):
 
 
 def getMullerDataa(request):
-        return getMuller(request, True)
+    return getMuller(request, True)
+
 
 def getMullerGraphics(request):
     return getMuller(request, False)
+
