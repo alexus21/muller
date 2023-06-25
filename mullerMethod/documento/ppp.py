@@ -25,9 +25,11 @@ class Muller:
 
         self._iteracion = 0
 
-        self.dataDict = {}
+        self._dataDict = {}
 
-        self.listaX0, self.listaX1, self.listaX2, self.listaE = [], [], [], []
+        self._listaX0, self._listaX1, self._listaX2, self._listaE = [], [], [], []
+
+        self._imagenGrafica = ""
 
 
     def _valoresImagen(self):
@@ -79,17 +81,7 @@ class Muller:
 
 
 
-    def valoresTres(self):
-        self.iteraciones()
-        data = []
-
-        data.append(self.dataDict["x0"])
-        data.append(self.dataDict["x1"])
-        data.append(self.dataDict["x2"])
-        data.append(self.dataDict["E"])
-        return data
-
-    def iteraciones(self):
+    def iteraciones(self, dataOrGraphics):
         self._fx = sympify(self._fx)
         self._fx0 = self._fx.subs(self._x, self._x0)
         self._fx1 = self._fx.subs(self._x, self._x1)
@@ -98,7 +90,7 @@ class Muller:
         xValues = np.array([self._x0, self._x1, self._x2])
         fxValues = np.array([self._fx0, self._fx1, self._fx2])
 
-        self.dataDict = {
+        self._dataDict = {
                         "i": [],
                         "x0": [],
                         "x1": [],
@@ -110,6 +102,7 @@ class Muller:
         bandera = True
 
         while self._errorActual > self._error:
+            ex = self._errorActual
             self._iteracion += 1
             self._valores()
 
@@ -145,46 +138,44 @@ class Muller:
             xValues = np.append(xValues, self._x3)
             fxValues = np.append(fxValues, fx3)
 
-            self.dataDict["i"].append(self._iteracion)
-            self.dataDict["x0"].append(self._x0)
-            self.dataDict["x1"].append(self._x1)
-            self.dataDict["x2"].append(self._x2)
-            self.dataDict["x3"].append(self._x3)
+            self._dataDict["i"].append(self._iteracion)
+            self._dataDict["x0"].append(self._x0)
+            self._dataDict["x1"].append(self._x1)
+            self._dataDict["x2"].append(self._x2)
+            self._dataDict["x3"].append(self._x3)
 
 
 
             self._errorActual = abs((self._x3 - self._x2) / self._x3)
 
-            self.dataDict["E"].append(self._errorActual)
-            self.listaE.append(self._errorActual)
+            self._dataDict["E"].append(self._errorActual)
+            self._listaE.append(self._errorActual)
 
-            self.listaX0.append([self._x0, self._x1, self._x2, self._errorActual])
+            self._listaX0.append([self._iteracion, round(self._x0, 5), round(self._x1, 5), round(self._x2, 5), str(round(self._errorActual * 100, 5)) + "%"])
 
             self._valoresIteracion()
             self._reiniciarValores()
 
 
         if bandera:
-            #self.sendValues(xValues, fxValues)
             #self.showInfo(self.dataDict)
-            dataaa = [self.listaX0, self.listaX1, self.listaX2]
-            return self.listaX0
+            dataaa = [self._listaX0, self._listaX1, self._listaX2]
+            if dataOrGraphics:
+                return self._listaX0
+
+            from mullerMethod.documento.graphics import Graphics
+            g = Graphics(xValues, fxValues, self._fx)
+            # g.createGraphics()
+            return g.createGraphics()
 
 
 
     def sendValues(self, xValues, fxValues):
 
-        import graphics
-        g = graphics.Graphics(xValues, fxValues, self._fx)
+        from mullerMethod.documento.graphics import Graphics
+        g = Graphics(xValues, fxValues, self._fx)
         #g.createGraphics()
-        g.graficaEcuacion(self._fx)
-
-    def showInfo(self, dataDict):
-
-        import showInfo as si
-        df = pd.DataFrame(dataDict)
-        s = si.ShowInfo(df)
-        s.showIterationsInfo()
+        return g.createGraphics()
 
 def main():
     funcion = input("Ingrese la función a evaluar -> ")
@@ -194,4 +185,3 @@ def main():
     error = float(input("Ingrese el valor de error mínimo -> "))
 
     muller = Muller(funcion, x0, x1, x2, error)
-    muller.iteraciones()

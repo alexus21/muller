@@ -33,7 +33,8 @@ def index(request):
 
             data = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 0.5, 0.1]]
             data = getMullerDataa(request)
-            return render(request, 'index.html', {'data': data})
+            imagen = getMullerGraphics(request)
+            return render(request, 'iterations.html', {'data':data, 'imagen':imagen})
 
 
     return render(request, "index.html")
@@ -209,11 +210,17 @@ def checkIfUserExist(username, email):
         return User.objects.filter(email=email).exists()
 
 
-def getMullerDataa(request):
-        equation = request.POST.get("getEquation")
-        x0 = float(request.POST.get("getX0"))
-        x1 = float(request.POST.get("getX1"))
-        x2 = float(request.POST.get("getX2"))
-        marginError = float(request.POST.get("getMarginOfError"))
+def getMuller(request, dataOrGraphics):
+    equation = request.POST.get("getEquation")
+    x0 = float(request.POST.get("getX0"))
+    x1 = float(request.POST.get("getX1"))
+    x2 = float(request.POST.get("getX2"))
+    marginError = float(request.POST.get("getMarginOfError"))
+    return Muller(equation, x0, x1, x2, marginError).iteraciones(dataOrGraphics)
 
-        return Muller(equation, x0, x1, x2, marginError).iteraciones()
+
+def getMullerDataa(request):
+        return getMuller(request, True)
+
+def getMullerGraphics(request):
+    return getMuller(request, False)
