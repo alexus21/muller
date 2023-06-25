@@ -22,8 +22,10 @@ class Graphics:
 
         # Agregar las coordenadas a cada punto
         for i, (x, y) in enumerate(zip(self._x, self._y)):
-            label = f'({x:.2f}, {y:.2f})'  # Formateo de cadena para mostrar solo dos decimales
-            graphics.annotate(label, (x, y), textcoords="offset points", xytext=(0, 10), ha='center')
+            if i == len(self._x) - 1: # Mostrar unicamente el ultimo valor
+                label = f'({x:.4f}, {y:.4f})'  # Formateo de cadena para mostrar solo dos decimales
+                graphics.annotate(label, (x, y), textcoords="offset points", xytext=(0, 10), ha='center')
+                graphics.plot(x, y, marker='o', color='black')
 
         plt.title(self._fx)
         plt.grid()

@@ -177,11 +177,3 @@ class Muller:
         #g.createGraphics()
         return g.createGraphics()
 
-def main():
-    funcion = input("Ingrese la función a evaluar -> ")
-    x0 = float(input("Ingrese el valor de x0 -> "))
-    x1 = float(input("Ingrese el valor de x1 -> "))
-    x2 = float(input("Ingrese el valor de x2 -> "))
-    error = float(input("Ingrese el valor de error mínimo -> "))
-
-    muller = Muller(funcion, x0, x1, x2, error)

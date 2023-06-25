@@ -2,9 +2,16 @@
 
 {% block content %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<p class="fs-1">Resultados</p>
-    <style>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Resultados</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <style>
             .center-column{
                 text-align: center;
             }
@@ -18,102 +25,56 @@
                 font-weight: bold;
             }
         </style>
-<div class="col text-center">
-    <div class="row">
-        <table class="table table-bordered d-none">
-              <thead>
-                    <tr>
-                        <th scope="col">Iteración</th>
-                        <th scope="col">X0</th>
-                        <th scope="col">X1</th>
-                        <th scope="col">X2</th>
-                        <th scope="col">X3</th>
-                        <th scope="col">E%</th>
-                    </tr>
-              </thead>
-              <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>100%</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>100%</td>
-                    </tr><tr>
-                        <th scope="row">3</th>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>100%</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>100%</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>100%</td>
-                    </tr><tr>
-                        <th scope="row">6</th>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>0.00000</td>
-                        <td>100%</td>
-                    </tr>
-              </tbody>
-        </table>
-        <div class="row">
-            <div class="col-6">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">Iteración</th>
-                            <th scope="col">X0</th>
-                            <th scope="col">X1</th>
-                            <th scope="col">X2</th>
-                            <th scope="col">E%</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for x in data %}
-                            <tr>
-                                {% for y in x %}
-                                    <td class="center-column bold-column">{{ y }}</td>
+    </head>
+    <body>
+        <div class="results">
+            <div class="col text-center">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">Iteración</th>
+                                        <th scope="col">X0</th>
+                                        <th scope="col">X1</th>
+                                        <th scope="col">X2</th>
+                                        <th scope="col">E%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for x in data %}
+                                        <tr>
+                                            {% for y in x %}
+                                                <td class="center-column bold-column">{{ y }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <img src="data:image/png;base64,{{ imagen }}" alt="Imagen grafica">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="fs-5">Valor final de x:
+                        {% for column in data %}
+                            {% if forloop.last %}
+                                {% for row in column %}
+                                    {% if forloop.counter == 4 %}
+                                        {{ row }}
+                                    {% endif %}
                                 {% endfor %}
-                            </tr>
-
+                            {% endif %}
                         {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        <div class="col-6">
-            <div class="row">
-                <img src="data:image/png;base64,{{ imagen }}" alt="Imagen grafica">
+                    </p>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
-    <div class="row">
-        <p class="fs-1">Valor final de x:</p>
-        <p class="fs-5">X = 0</p>
-    </div>
-</div>
+    </body>
+</html>
 {% endblock %}

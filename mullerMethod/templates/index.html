@@ -53,47 +53,22 @@
                 </div>
             </form>
         </div>
-        <div class="col-4">
-            <div class="row">
-                <p class="fs-1">Gráfica de la función</p>
-                <img class="img-thumbnail" src="" alt="">
+        <div class="col-6">
+                <img src="data:image/png;base64,{{ imagen }}" style="width: 750px;">
             </div>
-        </div>
-        <div class="col-5">
-            <p class="fs-1">Resultados</p>
-            <div class="row">
-                <div class="col">
-                    <p class="fs-1">Valor final de x:</p>
-                    <p class="fs-5">X = 0</p>
-                </div>
-            </div>
-            <div class="row">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>x0</th>
-                            <th>x1</th>
-                            <th>x2</th>
-                            <th>e</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for x in data %}
-                            <tr>
-                                {% for y in x %}
-                                    <td>{{ y }}</td>
-                                {% endfor %}
-                            </tr>
-
+            <div class="col-3 d-flex justify-content-center align-items-center">
+                {% for column in data %}
+                    {% if forloop.last %}
+                        {% for row in column %}
+                            {% if forloop.counter == 4 %}
+                                <p class=" fs-3">x = {{ row }}</p>
+                            {% endif %}
                         {% endfor %}
-
-                    </tbody>
-                </table>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
-</div>
-
 
 {#Footer#}
 <div class="container-fluid mt-5 pt-5 text-center">
@@ -102,8 +77,8 @@
           <div class="col">
             <h5>Desarrollado por: </h5>
             <ul class="nav flex-column">
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Ulloa Serpas, Hugo Alexander - US21003</a></li>
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Vásquez Crespo, Ángel Gabriel - VC21007</a></li>
+              <li class="nav-item mb-2"><a href="https://github.com/alexus21" class="nav-link p-0 text-muted">Ulloa Serpas, Hugo Alexander - US21003</a></li>
+              <li class="nav-item mb-2"><a href="https://github.com/yurdeth" class="nav-link p-0 text-muted">Vásquez Crespo, Ángel Gabriel - VC21007</a></li>
             </ul>
           </div>
             <div class="my-3 border-top text-center">
@@ -243,8 +218,6 @@
 
 <script src="{% static 'js/snippets.js' %}" defer></script>
 <script src="{% static 'js/bootstrap.min.js' %}" defer></script>
-{# Esta vaina es para cargar datos de los html: #}
-{#<script src="../static/js/loadContent.js" defer></script>#}
 </body>
 </html>
 {% endblock %}

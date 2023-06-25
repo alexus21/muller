@@ -30,12 +30,10 @@ def index(request):
 
         # Verifica si se ha hecho clic en el botón "findRoots"
         if "findRoots" in request.POST:
-
             data = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 0.5, 0.1]]
             data = getMullerDataa(request)
             imagen = getMullerGraphics(request)
-            return render(request, 'iterations.html', {'data':data, 'imagen':imagen})
-
+            return render(request, 'index.html', {'data':data, 'imagen':imagen})
 
     return render(request, "index.html")
 
