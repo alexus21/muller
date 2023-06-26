@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sympy import *
 
+from decimal import *
+
 class Graphics:
     def __init__(self, xValues, yValues, fx):
         self._x = xValues
@@ -85,3 +87,83 @@ class Graphics:
             image64 = base64.b64encode(buffer.getvalue()).decode()
 
             return image64
+
+    def crearGrafica(self, function):
+
+        funcion = sympify(function)
+
+        # Definir el símbolo x
+        x = symbols('x')
+
+        # Definir la ecuación
+        #funcion = sympify("x**3 -125")
+
+        # Encontrar las raíces
+        raices = solve(funcion, x)
+
+        # Mostrar solo la parte real de las raíces
+        raices_reales = [re(raiz).evalf() for raiz in raices]
+        raices_totales = [re(raiz).evalf() for raiz in raices if raiz.is_real]
+        print(raices_reales)
+
+        raices_reales.sort()
+        raices_totales.sort()
+
+        rangoNumeros = 6
+
+        # # Filtrar las raíces reales mayores o iguales a cero y obtener valores numéricos
+        # raices_positivas = [raiz.evalf() for raiz in raices if re(raiz).is_real]
+        #
+        # raices_positivas.sort()
+        #
+        # rangoNumeros = 6
+        minimoX = min(raices_reales) - rangoNumeros
+        maximoX = max(raices_reales) + rangoNumeros
+
+        minimoX = int(minimoX)
+        maximoX = int(maximoX)
+
+        # Convertir la función de Sympy en una función numérica
+        funcion_numpy = lambdify(x, funcion, 'numpy')
+
+        # Crear un array de valores de x
+        x_vals = np.linspace(minimoX, maximoX)
+
+        # Evaluar la función en los valores de x
+        y_vals = funcion_numpy(x_vals)
+
+        # Graficar la función
+        plt.plot(x_vals, y_vals)
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.grid()
+        plt.title(funcion)
+
+        def formatear_numero(numero):
+            numero_decimal = Decimal(numero)
+            if numero_decimal % 1 == 0:
+                return str(numero_decimal.to_integral_value())
+            else:
+                return "{:.2f}".format(numero_decimal).rstrip('0').rstrip('.')
+
+        for i in raices_reales:
+            x_value = i
+            xx = formatear_numero(str(i))
+            xx = str(xx)
+            xx = float(xx)
+            print(x_value)
+            y_value = funcion.subs(x, i)
+            if i in raices_totales:
+                plt.plot(x_value, y_value, "ro")
+                plt.text(xx, y_value, f'({xx}, {y_value})', ha='center', va='bottom', rotation=80)
+
+
+        # Creamos el archivo
+        buffer = io.BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        # codificamos la imagen
+        image64 = base64.b64encode(buffer.getvalue()).decode()
+
+        return image64
+

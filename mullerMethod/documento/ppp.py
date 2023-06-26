@@ -82,6 +82,7 @@ class Muller:
 
 
     def iteraciones(self, dataOrGraphics):
+        funcion = self._fx
         self._fx = sympify(self._fx)
         self._fx0 = self._fx.subs(self._x, self._x0)
         self._fx1 = self._fx.subs(self._x, self._x1)
@@ -166,7 +167,7 @@ class Muller:
             from mullerMethod.documento.graphics import Graphics
             g = Graphics(xValues, fxValues, self._fx)
             # g.createGraphics()
-            return g.createGraphics()
+            return g.crearGrafica(funcion)
 
 
 
