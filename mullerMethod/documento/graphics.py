@@ -76,6 +76,12 @@ class Graphics:
         plt.grid()
         plt.title('Gráfico de la función')
 
+        for i, (x, y) in enumerate(zip(self._x, self._y)):
+            if i == len(self._x) - 1:  # Mostrar unicamente el ultimo valor
+                label = f'({x:.4f}, {y:.4f})'  # Formateo de cadena para mostrar solo dos decimales
+                plt.annotate(label, (x, y), textcoords="offset points", xytext=(0, 10), ha='center')
+                plt.plot(x, y, marker='o', color='black')
+
         for i in raices:
             plt.plot(i, funcion.subs(x, i), "ro")
 
@@ -153,9 +159,18 @@ class Graphics:
             xx = float(xx)
             print(x_value)
             y_value = funcion.subs(x, i)
+
+            for i, (x, y) in enumerate(zip(self._x, self._y)):
+                if i == len(self._x) - 1:  # Mostrar unicamente el ultimo valor
+                    label = f'({x:.4f}, {y:.4f})'  # Formateo de cadena para mostrar solo dos decimales
+                    plt.annotate(label, (x, y), textcoords="offset points", xytext=(0, 10), ha='center')
+                    plt.plot(x, y, marker='o', color='black')
+
             if i in raices_totales:
+                plt.grid()
                 plt.plot(x_value, y_value, "ro")
                 plt.text(xx, y_value, f'({xx}, {y_value})', ha='center', va='bottom', rotation=80)
+
 
 
         # Creamos el archivo
@@ -166,4 +181,3 @@ class Graphics:
         image64 = base64.b64encode(buffer.getvalue()).decode()
 
         return image64
-

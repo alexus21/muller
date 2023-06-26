@@ -61,10 +61,6 @@ def muller(request, username, email, password):
     return render(request, "muller.html", context={"username": username, "email": email, "password": password})
 
 
-def iterations(request):
-    return render(request, "iterations.html")
-
-
 # Función para registrar un nuevo usuario
 def signUpToSite(request):
     username = request.POST.get("username")
