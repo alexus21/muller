@@ -152,10 +152,11 @@ def updateUserData(request):
             return True
 
         # Si la contraseña o la contraseña reingresada están vacías
-        if password == "" or retypedPassword == "":
+        if password == retypedPassword == "":
             # Verifica si se ha proporcionado un nombre de usuario no vacío
             # o si no existe un usuario con el mismo nombre de usuario
-            if not checkIfUserExist(username, None):
+            if checkIfUserExist(username, None):
+                print(not checkIfUserExist(username, None))
                 messages.error(request, "Nombre de usuario ya registrado")
                 return False
 

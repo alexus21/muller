@@ -20,6 +20,7 @@ class Graphics:
 
         #Puntos que se acercan a la raiz:
         graphics.scatter(self._x, self._y, color="green")
+        graphics.grid()
         graphics.plot(x, y, color="red", label="fx")
 
         # Agregar las coordenadas a cada punto
@@ -70,10 +71,11 @@ class Graphics:
         y_vals = funcion_numpy(x_vals)
 
         # Graficar la función
+        plt.grid()
         plt.plot(x_vals, y_vals)
         plt.xlabel('x')
         plt.ylabel('f(x)')
-        plt.grid()
+
         plt.title('Gráfico de la función')
 
         for i, (x, y) in enumerate(zip(self._x, self._y)):
@@ -83,6 +85,7 @@ class Graphics:
                 plt.plot(x, y, marker='o', color='black')
 
         for i in raices:
+            plt.grid()
             plt.plot(i, funcion.subs(x, i), "ro")
 
             # Creamos el archivo
@@ -139,10 +142,10 @@ class Graphics:
         y_vals = funcion_numpy(x_vals)
 
         # Graficar la función
+        plt.grid()
         plt.plot(x_vals, y_vals)
         plt.xlabel('x')
         plt.ylabel('f(x)')
-        plt.grid()
         plt.title(funcion)
 
         def formatear_numero(numero):
