@@ -28,12 +28,12 @@ Para utilizar este método en tu proyecto de Django, sigue los siguientes pasos:
 ## Desarrolladores
 Los desarrolladores de este proyecto son:
 
-- Ulloa Serpas, Hugo Alexander - US21003: [Perfil de GitHub](https://github.com/alexus21)
-- Vásquez Crespo, Ángel Gabriel - VC21007: [Perfil de GitHub](https://github.com/yurdeth)
+- Ulloa Serpas, Hugo Alexander - US21003: [alexus21](https://github.com/alexus21)
+- Vásquez Crespo, Ángel Gabriel - VC21007: [yurdeth](https://github.com/yurdeth)
 
 ## Captura de pantalla
 Aquí puedes encontrar una captura de pantalla del proyecto:
 
-![Captura de pantalla](https://raw.githubusercontent.com/alexus21/muller/main/2023-06-26_12-33.png)
+![Captura de pantalla](https://raw.githubusercontent.com/alexus21/muller/main/2023-06-27_18-18.png)
 
 ¡Gracias por utilizar el método de Müller en Django! Si tienes alguna pregunta o sugerencia, no dudes en comunicarte con los desarrolladores mencionados anteriormente.
