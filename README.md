@@ -10,19 +10,19 @@ Para utilizar este método en tu proyecto de Django, sigue los siguientes pasos:
    git clone https://github.com/alexus21/muller.git
    ```
 
-2. Instala los requisitos necesarios utilizando el siguiente comando:
+2. Ejecuta el entorno virtual de Python:
+   ```
+   .\venv\Scripts\activate
+   ```
+
+3. Instala los requisitos necesarios utilizando el siguiente comando:
    ```
    pip install -r requirements.txt
    ```
 
-3. Importa el método de Müller en tu código de Django:
-   ```python
-   from muller import muller_method
+4. Corre el servidor:
    ```
-
-4. Utiliza la función `muller_method` para encontrar las raíces de tu función no lineal:
-   ```python
-   roots = muller_method(function, x0, x1, x2)
+   python .\manage.py runserver
    ```
 
    Asegúrate de proporcionar la función no lineal y los valores iniciales `x0`, `x1` y `x2` adecuados.
