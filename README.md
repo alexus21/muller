@@ -25,8 +25,6 @@ Para utilizar este método en tu proyecto de Django, sigue los siguientes pasos:
    python .\manage.py runserver
    ```
 
-   Asegúrate de proporcionar la función no lineal y los valores iniciales `x0`, `x1` y `x2` adecuados.
-
 ## Desarrolladores
 Los desarrolladores de este proyecto son:
 
