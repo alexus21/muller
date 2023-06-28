@@ -10,17 +10,22 @@ Para utilizar este método en tu proyecto de Django, sigue los siguientes pasos:
    git clone https://github.com/alexus21/muller.git
    ```
 
-2. Ejecuta el entorno virtual de Python:
+2. Crea el entorno virtual de Python:
+   ```
+   virtualenv venv
+   ```
+
+3. Ejecuta el entorno virtual:
    ```
    .\venv\Scripts\activate
    ```
 
-3. Instala los requisitos necesarios utilizando el siguiente comando:
+4. Instala los requisitos necesarios utilizando el siguiente comando:
    ```
    pip install -r requirements.txt
    ```
 
-4. Corre el servidor:
+5. Corre el servidor:
    ```
    python .\manage.py runserver
    ```
